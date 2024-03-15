@@ -13,7 +13,7 @@ provider "aws" {
 
 # s3 bucket
 resource "aws_s3_bucket" "site_origin" {
-  bucket = "web.cloud.resume.s3.bucket"
+  bucket = "cloudreslab.io"
 
   tags = {
     Name        = "Res - My web bucket"
