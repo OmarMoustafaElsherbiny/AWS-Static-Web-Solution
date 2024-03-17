@@ -1,4 +1,11 @@
 terraform {
+  cloud {
+    organization = "MDOmar"
+
+    workspaces {
+      name = "infrastructure-staging-us-east"
+    }
+  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
