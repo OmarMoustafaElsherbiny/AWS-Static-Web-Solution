@@ -1,6 +1,6 @@
 name: "Terraform Plan"
 
-run-name: ${{ github.actor }} is running Terraform Plan
+run-name: ${{ github.actor }} invoked Terraform Plan
 
 on:
   pull_request:
