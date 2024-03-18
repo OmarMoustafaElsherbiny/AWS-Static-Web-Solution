@@ -1,4 +1,5 @@
 terraform {
+  # replace var.tfc_organization & var.tfc_workspace_name with their string values in CLI driven workflow
   cloud {
     organization = var.tfc_organization
 
