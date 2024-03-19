@@ -35,7 +35,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
   tags = {
-    Name        = "${local.name} - Site distribution"
+    Name        = "${local.name} - site distribution"
     Environment = local.environment
   }
 }

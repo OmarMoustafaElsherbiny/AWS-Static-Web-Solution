@@ -18,4 +18,5 @@ terraform {
 locals {
   environment = "Dev"
   name        = "cloudreslab"
+  build_dir   = "build"
 }

@@ -2,17 +2,17 @@ resource "aws_s3_bucket" "site_origin" {
   bucket = var.aws_s3_bucket_name
 
   tags = {
-    Name        = "${local.name} - My web bucket"
+    Name        = "${local.name} - my web bucket"
     Environment = local.environment
   }
 }
 
 resource "aws_s3_object" "website_build" {
-  for_each = fileset("website/", "*")
+  for_each = fileset("${local.build_dir}/", "*")
   bucket   = aws_s3_bucket.site_origin.id
   # object name
   key    = each.value
-  source = "website/${each.value}"
+  source = "${local.build_dir}/${each.value}"
 }
 
 resource "aws_s3_bucket_policy" "site_origin" {
