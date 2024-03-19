@@ -7,6 +7,14 @@ resource "aws_s3_bucket" "site_origin" {
   }
 }
 
+resource "aws_s3_object" "website_build" {
+  for_each = fileset("website/", "*")
+  bucket   = aws_s3_bucket.site_origin.id
+  # object name
+  key    = each.value
+  source = "website/${each.value}"
+}
+
 resource "aws_s3_bucket_policy" "site_origin" {
   depends_on = [data.aws_iam_policy_document.site_origin]
   bucket     = aws_s3_bucket.site_origin.id
