@@ -31,7 +31,7 @@ resource "aws_lambda_function" "py_lambda" {
 }
 
 resource "aws_lambda_function_url" "my_lambda_function_url" {
-  function_name      = aws_lambda_function.ts_lambda.function_name
+  function_name      = aws_lambda_function.py_lambda.function_name
   authorization_type = "NONE"
 }
 
