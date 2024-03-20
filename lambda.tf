@@ -20,7 +20,7 @@ data "archive_file" "lambda" {
   output_path = "${path.module}/archive/lambda_function_payload.zip"
 }
 
-resource "aws_lambda_function" "ts_lambda" {
+resource "aws_lambda_function" "py_lambda" {
   filename      = "${path.module}/archive/lambda_function_payload.zip"
   function_name = "dynamodb_lambda"
   role          = aws_iam_role.lambda_role.arn
@@ -28,4 +28,31 @@ resource "aws_lambda_function" "ts_lambda" {
   runtime       = "python3.10"
   memory_size   = 1024
   timeout       = 300
+}
+
+resource "aws_lambda_function_url" "my_lambda_function_url" {
+  function_name      = aws_lambda_function.ts_lambda.function_name
+  authorization_type = "NONE"
+}
+
+# UNIX runner script to edit index.js using sed
+resource "null_resource" "edit_file" {
+  provisioner "local-exec" {
+    command = <<EOF
+      sed -i "" "s|^const apiUrl =.*|const apiUrl = \"$URL\";|" ${local.build_dir}/index.js
+    EOF
+    environment = {
+      URL = aws_lambda_function_url.my_lambda_function_url.function_url
+    }
+  }
+  # this is needed to have script run every time
+  triggers = {
+    always_run = timestamp()
+  }
+}
+
+# Ouput the edited file and overwrites the original
+data "local_file" "edited_file" {
+  depends_on = [null_resource.edit_file]
+  filename   = "${local.build_dir}/index.js"
 }

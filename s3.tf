@@ -8,8 +8,9 @@ resource "aws_s3_bucket" "site_origin" {
 }
 
 resource "aws_s3_object" "website_build" {
-  for_each = fileset("${local.build_dir}/", "*")
-  bucket   = aws_s3_bucket.site_origin.id
+  depends_on = [data.local_file.edited_file, null_resource.edit_file]
+  for_each   = fileset("${local.build_dir}/", "*")
+  bucket     = aws_s3_bucket.site_origin.id
   # object name
   key    = each.value
   source = "${local.build_dir}/${each.value}"
