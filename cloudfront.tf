@@ -1,6 +1,6 @@
 # Cloudfornt distribution and it's OAC and OAI
 resource "aws_cloudfront_distribution" "s3_distribution" {
-  depends_on          = [aws_s3_bucket.site_origin, aws_cloudfront_origin_access_identity.bucket_access]
+  depends_on          = [aws_s3_bucket.site_origin, aws_cloudfront_origin_access_identity.bucket_access, aws_s3_object.website_build]
   enabled             = true
   default_root_object = "index.html"
   origin {
