@@ -39,7 +39,7 @@ resource "aws_lambda_function_url" "my_lambda_function_url" {
 resource "null_resource" "edit_file" {
   provisioner "local-exec" {
     command = <<EOF
-      sed -i "" "s|^const apiUrl =.*|const apiUrl = \"$URL\";|" ${local.build_dir}/index.js
+      sed -i "s|^const apiUrl =.*|const apiUrl = \"$URL\";|" ${local.build_dir}/index.js 2>/dev/null
     EOF
     environment = {
       URL = aws_lambda_function_url.my_lambda_function_url.function_url
