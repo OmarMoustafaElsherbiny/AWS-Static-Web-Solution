@@ -1,17 +1,20 @@
-name: "Terraform Apply and S3 Upload"
+name: "Terraform Apply"
 
 run-name: ${{ github.actor }} invoked Terraform Apply
 
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "**/README.md"
+      - "**/LICENSE"
+      - ".github/workflows/**"
 
 env:
   TF_CLOUD_ORGANIZATION: "MDOmar"
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
   TF_WORKSPACE: "infrastructure-staging-us-east"
   CONFIG_DIRECTORY: "./" # Terraform config path on the repo
-  AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
   SOURCE_DIR: website
 
 jobs:
@@ -45,23 +48,3 @@ jobs:
         with:
           run: ${{ steps.apply-run.outputs.run_id }}
           comment: "Apply Run from GitHub Actions CI ${{ github.sha }}"
-
-  # deploy:
-  #   name: "S3 Upload"
-  #   needs: terraform
-  #   runs-on: ubuntu-latest
-  #   # permissions:
-  #   #   contents: read
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-
-  #     - name: Configure AWS Credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: ${{ secrets.AWS_REGION }}
-
-  #     - name: Upload to S3
-  #       run: aws s3 sync --delete ${{env.SOURCE_DIR}} s3://${{secrets.AWS_S3_BUCKET}}

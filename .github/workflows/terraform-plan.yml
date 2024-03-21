@@ -4,6 +4,10 @@ run-name: ${{ github.actor }} invoked Terraform Plan
 
 on:
   pull_request:
+    paths-ignore:
+      - "**/README.md"
+      - "**/LICENSE"
+      - ".github/workflows/**"
 
 env:
   TF_CLOUD_ORGANIZATION: "MDOmar"
