@@ -18,5 +18,5 @@ terraform {
 locals {
   environment = "Dev"
   name        = "cloudreslab"
-  build_dir   = "build"
+  build_dir   = "${path.module}/build"
 }
