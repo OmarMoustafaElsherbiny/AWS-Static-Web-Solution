@@ -43,6 +43,11 @@ resource "aws_lambda_function" "py_lambda" {
 resource "aws_lambda_function_url" "my_lambda_function_url" {
   function_name      = aws_lambda_function.py_lambda.function_name
   authorization_type = "NONE"
+  # can be configured to whitelist your domain and blacklist others
+  cors {
+    allow_origins = [ "*" ]
+    allow_methods = [ "*" ]
+  }
 }
 
 # UNIX runner script to edit index.js using sed
