@@ -14,6 +14,16 @@ resource "aws_iam_role" "lambda_role" {
   })
 }
 
+# not recommended
+data "aws_iam_policy" "dynamo_full_access_policy" {
+  arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "dynamo_full_access" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = data.aws_iam_policy.dynamo_full_access_policy.arn
+}
+
 data "archive_file" "lambda" {
   type        = "zip"
   source_file = "${path.module}/src/index.py"
