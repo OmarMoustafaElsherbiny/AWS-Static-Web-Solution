@@ -64,10 +64,3 @@ $ brew install tfenv
 - The CI/CD only automates the terraform apply and terraform plan operation, but it can be extended to add a build and test step, depending on the app. 
 The build can be handed to TF to upload it to the S3 bucket.
 
-
-## Business analysis
-
-### Cost analysis
-- TODO
-### Performance metrics
-- TODO
